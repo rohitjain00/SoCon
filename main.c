@@ -1,152 +1,382 @@
 #include <stdio.h>
-#include <string.h>
 #include <malloc.h>
+#include <stdbool.h>
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "CannotResolve"
+#include<conio.h>
+#include <list.h>
+//make an add friend
+//test the whole program
 
-int numberOfUserAccounts;
-bool logedin = false;
 
-typedef struct user{
+
+
+typedef struct user {
     char fName[20];
     char lName[20];
-    char username[20];
-    char password[100];
-    char email[20];
-    int DOB[3];//[day,month,year]
-    char gender;// F/M
-    char address[200];
-    int numberOfFriends;
-    char education[200];
-    struct user *next;
-    struct user *previous;
+    char username[40];
+    char password[20];
+    int age;
+    char status[100];
+    char gender;//m for male and f for female
 }user;
+///////////////////////////////////////////////////////////////////////////////////////////
+struct node {
+    user *data;
+    struct node *next;
+};
 
-void login () {
-    char username[40]; char password[60];
-    scanf("%s", &username);
-    scanf("%s", &password);
-    FILE *accounts = fopen("accounts.txt","r");
-    if (accounts == NULL) {printf("Unable to access accounts.txt file")return false;}
-    else {
-        char inFileUsername[40];
-        char inFilePassword[60];
-        user *user = (user) malloc(sizeof(user));
-        while (fgetc(accounts) != EOF) {
-            fread(user, sizeof(user),1,accounts)
-            if(strcmp(user->username,inFileUsername) && strcmp(user->password, inFilePassword)) {
-                fclose(accounts);
-                free(user);
-                logedin = true;
+struct node *head;
+
+void insertNewNode(user *newUser)
+{
+    struct node *temp;
+
+    temp=head;
+
+    struct node *a=(struct node *)malloc(sizeof(struct node));
+
+    a->data=newUser;
+
+    if (head==NULL)
+    {
+        head=a;
+        head->next=NULL;
+    }
+
+    else
+    {
+
+        while (temp->next!=NULL)]
+        {
+            temp=temp->next;
+        }
+
+        temp->next=a;
+        a->next=NULL;
+    }
+}
+
+void deleteUser(char userName[40])
+{
+    struct node *temp, *temp1 = NULL;
+    temp=head;
+
+    if (head==NULL)
+    {
+        printf("\nNO USER FOUND");
+    }
+
+    else
+    {
+        while(strcmp(temp->data->username,userName) != 0)
+        {
+            temp1=temp;
+            temp=temp->next;
+        }
+        if (temp->next==NULL)
+        {
+            temp1->next=NULL;
+            free(temp);
+
+        }
+        else
+        {
+
+            temp1->next=temp->next;
+            temp->next=NULL;
+            free(temp);
+        }
+
+        printf("\nTHE USER ACCOUNT WAS DELETED");
+    }
+}
+
+user * searchUser(char userName[40])
+{
+    struct node *temp;
+    temp=head;
+
+    if (head==NULL)
+    {
+        printf("\nNO USER FOUND");
+        return NULL;
+    }
+
+    else
+    {
+        while(strcmp(temp->data->username,userName) != 0)
+        {
+            temp=temp->next;
+            if (temp==NULL)
+            {
+                printf("\nNO USER FOUND")
+                break;
             }
         }
+
+
+        return (user *) temp;
     }
-    printf("\n\n Sorry no user found!! \n\n");
-    free(user);
-    fclose(accounts);
-}
-void register () {
-
-user user = (user)malloc(sizeof(user));
-
-printf("First Name : ");
-scanf("%s", &user->fName);
-
-printf("\n Last Name : ");
-scanf("%s", &user->lName);
-
-printf("\nusername : ");
-scanf("%s", &user->username);
-
-printf("\n password : ");
-scanf("%s", &user->password);
-
-printf("\n email : ");
-scanf("%s", &user->email);
-
-printf("\n DOB(dd-mm-yyyy) : ");
-scanf("%d-%d-%d", &user->DOB[0], &user->DOB[1], &user->DOB[2]);
-
-printf("\n genders : ");
-scanf("%s", &user->gender);
-
-printf("\n address : ");
-scanf("%s", &user->address);
-
-printf("\n education : ");
-scanf("%s", &user->education);
-
-
-user *pointerToUser = user;
-FILE *accounts = fopen("accounts.txt","a+");
-fwrite(pointerToUser, sizeof(user),1,accounts);
-fclose(accounts);
-
 }
 
-void MainScreen() {
-    printf("1. Login\n");
-    printf("2. Register\n");
-    printf("3. Exit\n");
-}
 
-void afterLoginScreen() {
-    printf("1. Message\n");
-    printf("2. My Info\n");
-    printf("3. Message\n");
-    printf("4. Find Friends\n");
-    printf("5. Notifications\n");
-    printf("6. Friends\n");
-    printf("7. Logout\n");
-}
+//////////////////////////////////////////////////////////////////////////////////////////////
+user *currUser = (user *)malloc(sizeof(user));
+bool loggedin;
 
-int main (void) {
-    int n = 0;
-    //////////////////////////////////////////Main screen
+
+typedef struct {
+    char senderUsername[40];
+    char message[200];
+    char recieverUsername[40];
+}message;
+//messages would be stored in a messages.txt file
+// all accounts would be stored in accounts.txt file
+
+void addDataTolist();
+int numberOfUsers();
+void loginUser();
+void registerUser();
+void showListOfUsers();
+void sendMessages();
+void recieveMessage();
+void changeStatus();
+void editCurrentUser();
+void deleteCurrentUser();
+
+int main() {
+    addDataTolist();
+    int users = numberOfUsers();
+    int n;
     do {
-        MainScreen();
-        scanf("%d", &n);
-
-        switch (n) {
-            case 1: //asks for login details and returns weather true or false
-                logedin = login();
+        clrscr();
+        printf("1. Login");
+        if (loggedin) {
+            printf("\t\t\t\t Logged in as %s", currUser->username);
+        } else {
+            printf("\t\t\t\t Please Login/Register to use the app!!")
+        }
+        printf(" \n 2. Register \n 3. Search User \n 4. Send message \n 5. View Previous Messages \n 6. change Status 7. edit your account  8.Delete my account 9.Add Friend 10.");
+         scanf("%d",&n);
+        switch (n)
+        {
+            case 1:
+                loginUser();
                 break;
             case 2:
-                register();
+                registerUser();
                 break;
             case 3:
-                return;
-            default:
-                printf("Unsupported argument\n"); // code to be executed if n doesn't match any cases
+                break;
+            case 4:
+                sendMessages();
+                break;
+            case 5:
+                recieveMessage();
+                break;
+            case 6:
+                changeStatus();
+                break;
+            case 7:
+                editCurrentUser();
+                break;
+            case 8:
+                deleteCurrentUser();
+                break;
+            case 9:
+                addFriend();
+                break;
+            default: // code to be executed if n doesn't match any cases
         }
-    } while(!logedin);
-    //////////////////////////////////////////after User Login
-    if (logedin) {
-        int a = 0;
-        while(a != 7) {
+    }while(n != 9);
 
-            afterLoginScreen();
-            scanf("&d", &a);
 
-            switch (a) {
-                case 1:
-                    message();
-                    break;
-                case 2:
-                    register();
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
+}
 
-                default:
-                    printf("Unsupported argument\n"); // code to be executed if n doesn't match any cases
-            }
+int numberOfUsers(){
+    FILE *fptr = fopen("accounts.txt","r");
+    user *tempUser = (user *) malloc(sizeof(user));
+    int counter = 0;
+    while(!feof(fptr)){
+        fread(tempUser,sizeof(user),1,fptr);
+        counter++;
+        if (tempUser == NULL) {
+            break;
+        }
+    }
+    fclose(fptr);
+    return counter;
+}
+void addDataToList() {
+    FILE *fptr = fopen("accounts.txt","r");
+    while( !feof(fptr) ){
+        user *users = (user *) malloc(sizeof(user));
+        fread(users,sizeof(user),1,fptr);
+        counter++;
+        insertNewNode(users);
+        if (tempUser == NULL) {
+            break;
         }
     }
 }
+
+void loginUser() {
+    clrscr();
+    char username [40];
+    char password[20];
+    printf("Username : ");scanf("%s",username);
+    printf("Password : ");scanf("%s",password);
+    user *user = listSearch(username);
+    if (user == NULL) {
+        printf("/n/n User Not Founnd!!...");
+        return;
+    }
+    if (strcmp(password,user->password) != 0) {
+        if (user->gender == (char) "m" || user->gender == (char) "M") {
+            printf("Mr.");
+        } else {
+            printf("Ms. ");
+        }
+        printf("%s",user->fName);
+        printf("\nWelcome to the SoCon\n Have a nice experience....");
+        loggedin = true;
+        currUser = user;
+    } else {
+        printf("\nWrong Password hai yaar");
+        return;
+    }
+}
+
+void registerUser(){
+    clrscr();
+    user *tempUser = (user *)malloc(sizeof(user));
+    printf("Enter the following details to get yourself registered\n");
+    printf("First Name : ");scanf("%s",tempUser->fName);
+    printf("\n Last Name : ");scanf("%s",tempUser->lName);
+    printf("\nUsername : ");scanf("%s",tempUser->username);
+    printf("\nPassword : ");scanf("%s",tempUser->password);
+    printf("\nAge : ");scanf("%d",&tempUser->age);
+    printf("\nStatus : ");scanf("%s",tempUser->status);
+    printf("\nGender : ");scanf("%c",&tempUser->gender);
+    currUser = tempUser;
+    loggedin = true;
+    insertNewNode(tempUser);
+}
+void showListOfUsers()
+{
+    struct node *temp;
+    temp=head;
+
+    if (head==NULL)
+    {
+        printf("\nNO USER FOUND");
+    }
+
+    else
+    {
+
+        printf("\n--------SoCon FAMILY---------")
+        while(temp!=NULL)
+        {
+            printf("\n%s",temp->data->username);
+            printf("\n%s\t%s",temp->data->fName,temp->data->lName);
+        }
+    }
+}
+
+
+
+void sendMessages() {
+    clrscr();
+    message *newMessage = (message *)malloc(sizeof(message));
+    strcpy(newMessage->senderUsername,currUser->username);
+    char recieverUsername [40];
+    printf("To : ");
+    scanf("%s",recieverUsername);
+    if (searchUser(recieverUsername) == NULL){
+        printf("\n\nNo user with such username present....\n\n");
+        return;
+    } else {
+        printf("enter the message to send : ");scanf("%s",newMessage->message);
+        FILE *fptr = fopen("messages.txt","a+");
+        fwrite(&newMessage, sizeof(message),1,fptr);
+        fclose(fptr);
+    }
+    return;
+}
+
+void recieveMessage() {
+    clrscr();
+    FILE *fptr = fopen("messages.txt","r");
+    message *message1 = (message *) malloc(sizeof(message));
+    printf("Messages\t\tSender")
+    while (!feof(fptr)) {
+        fread(&message1, sizeof(message),1,fptr);
+        if (strcmp(message1->recieverUsername,currUser->username)){
+            printf("%s\t\t%s",message1->message,message1->senderUsername);
+        }
+    }
+}
+
+void changeStatus() {
+    clrscr();
+    printf("Current Status : %s\n\n Do you want to change??[y/n]\n",currUser->status);
+
+    char a;scanf("%c",&a);
+    if (a == (char) "n"){
+        return;
+    } else {
+        printf("Enter new status : ");
+        char newStatus[200];
+        scanf("%s",newStatus);
+        strcpy(currUser->status,newStatus);
+    }
+
+
+}
+void editCurrentUser() {
+    clrscr();
+    printf("You can change all U want\n select y or n and change whatever you want");
+    user *updatedUser;
+    updatedUser = currUser;
+
+    printf("Do you want to change username??");
+    char wantToUpdate;
+    scanf("%c",&wantToUpdate);
+    if (c == "y"){
+        printf("Your old username was %s\n",currUser->username);
+        char newUsername[40];
+        scanf("%s",newUsername);
+        strcpy(updatedUser->username,newUsername);
+    }
+    printf("Do you want to change password??");
+    scanf("%c",&wantToUpdate);
+    if (c == "y"){
+        printf("Your old password was %s\n",currUser->password);
+        char password[40];
+        scanf("%s",password);
+        strcpy(updatedUser->password,password);
+    }
+    printf("Do you want to change age??");
+
+    scanf("%c",&wantToUpdate);
+    if (c == "y"){
+        printf("Your old age was %d\n",currUser->age);
+        char newAge;
+        scanf("%d",newAge);
+        updatedUser->age = newAge;
+    }
+    currUser = updatedUser;
+}
+
+void deleteCurrentUser() {
+    deleteUser(currUser->username);
+    loggedin = false;
+    currUser = NULL;
+}
+
+
+
+
+#pragma clang diagnostic pop
