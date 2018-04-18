@@ -8,7 +8,7 @@
 #pragma ide diagnostic ignored "CannotResolve"
 //make an add friend
 //test the whole program
-
+//make add dataToList function
 void clrscr()
 {
   const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
