@@ -1,0 +1,13 @@
+This project was codded for the project of the 2nd sem in college
+
+			STAR REPORT
+
+SITUATION : We have been given a project to make in the college on C using Graphics and a specific data structure so we decided to make a FB like app on command line 
+
+Task : We decided to make an app that lets user login and send mesage to other users and search for other and become friends and can change their status
+
+Action : About one week before the dead line I decided to make the basic skeleton of the app and Construct the API that further My teamates could build individual functions so that the work could be evely distributed
+
+Later a team of 4 was devided into two tasks one decided to make all the needed graphics for the app and other decided to debug the code and remove all the errors.
+
+RESULT : We made the project in under 4 hrs with all the graphics and all working properly. We made a perfect sumbission to teacher and scored an A in computer lab and I most of all I learned how to manage a team and distribute work between them 
