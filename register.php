@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <style>
-
+	body {
+		margin-left : 10px;
+	}
 </style>
 </head>
 <body>
