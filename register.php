@@ -2,6 +2,17 @@
 <html>
 <head>
     <title>User Registration</title>
+<<<<<<< HEAD
+=======
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.4/css/bootstrap.css">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <style>
+	body {
+		margin-left : 10px;
+	}
+</style>
+>>>>>>> 51b710aea0d49a8074c33df8b7ab190cade36e02
 </head>
 <body>
 <h1>User Registration</h1>
