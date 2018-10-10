@@ -12,8 +12,9 @@ else
         <title>SoCon : Social Connectivity</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="style/style.css">
-
+        <?php
+        include 'headerInclude.php'
+        ?>
          </head>
 
     <body>
@@ -38,25 +39,19 @@ else
                     include 'extra.php';
                 ?>
             </div>
-            <div class="col=lg-2">
-
+            <div class="col=lg-3 footer">
+                <?php
+                include 'footer.php';
+                ?>
             </div>
         </div>
     </div>
     <?php
         include 'sideButton.php';
 ?>
-
-    <!-- Script files-->
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script src="main.js"></script>
+    <?php
+    include "footerInclude.php";
+    ?>
     </body>
     </html>
     <?php
