@@ -44,14 +44,19 @@ nav {
 }
 .dropup {
     position: absolute;
-    right : 60px !important;
-    bottom: 50px !important;
-    height: 40px !important;
-    width: 50px !important;
+    /*right : 60px !important;*/
+    bottom: 94px !important;
+    /*height: 40px !important;*/
+    /*width: 50px !important;*/
+    left: 89%;
+    border-radius: 100%;
 }
 .sideButton  .dropup button {
-    border-radius: 100% !important;
+    /*border-radius: 100% !important;*/
     z-index: 1001;
+}
+.dropup .btn {
+    border-radius: 100%;
 }
 .sideButton  .dropdown-menu a {
     border-radius: 1000%;
