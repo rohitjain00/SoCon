@@ -13,15 +13,12 @@
     <p><a href="register.php">New User Registeration!</a></p>
 </form>
 <?php
+include 'dbConnect.php';
 if(isset($_POST["submit"])){
     if(!empty($_POST['user']) && !empty($_POST['pass'])){
         $user = $_POST['user'];
         $pass = $_POST['pass'];
-        //DB Connection
-        $conn = new mysqli('localhost', 'xrjx', '  ') or die(mysqli_error());
-        //Select DB From database
-        $db = mysqli_select_db($conn, 'test') or die("databse error");
-        //Selecting database
+
         $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$user."' AND pass='".$pass."'");
         $numrows = mysqli_num_rows($query);
         if($numrows !=0)

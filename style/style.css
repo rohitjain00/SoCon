@@ -4,6 +4,9 @@
         text-align: right;
     }
 }
+body {
+    overflow-x: hidden;
+}
 .allRow .maxHeight {
     max-height: 83vh;
     overflow: scroll;
@@ -41,14 +44,19 @@ nav {
 }
 .dropup {
     position: absolute;
-    right : 60px;
-    bottom: 50px;
-    height: 40px !important;
-    width: 50px !important;
+    /*right : 60px !important;*/
+    bottom: 94px !important;
+    /*height: 40px !important;*/
+    /*width: 50px !important;*/
+    left: 89%;
+    border-radius: 100%;
 }
 .sideButton  .dropup button {
-    border-radius: 100% !important;
+    /*border-radius: 100% !important;*/
     z-index: 1001;
+}
+.dropup .btn {
+    border-radius: 100%;
 }
 .sideButton  .dropdown-menu a {
     border-radius: 1000%;
@@ -90,6 +98,9 @@ nav {
 /*extra.php css*/
 .extracss .card {
     margin-bottom: 12px;
+}
+.extracss .card img {
+    opacity: 0.6;
 }
 
 /*footer.php css*/
