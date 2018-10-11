@@ -23,9 +23,8 @@
 
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#"><i class="fa fa-cogs" aria-hidden="true"></i>
+                    <a class="dropdown-item" href="accountSettings.php"><i class="fa fa-cogs" aria-hidden="true"></i>
                         Settings</a>
-                    <a class="dropdown-item" href="#"></a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="logout.php">Logout</a>
                 </div>

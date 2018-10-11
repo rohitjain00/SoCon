@@ -4,6 +4,9 @@
         text-align: right;
     }
 }
+body {
+    overflow-x: hidden;
+}
 .allRow .maxHeight {
     max-height: 83vh;
     overflow: scroll;
@@ -41,8 +44,8 @@ nav {
 }
 .dropup {
     position: absolute;
-    right : 60px;
-    bottom: 50px;
+    right : 60px !important;
+    bottom: 50px !important;
     height: 40px !important;
     width: 50px !important;
 }
@@ -90,6 +93,9 @@ nav {
 /*extra.php css*/
 .extracss .card {
     margin-bottom: 12px;
+}
+.extracss .card img {
+    opacity: 0.6;
 }
 
 /*footer.php css*/
