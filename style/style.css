@@ -8,7 +8,7 @@ body {
     overflow-x: hidden;
 }
 .allRow .maxHeight {
-    max-height: 83vh;
+    max-height: 85vh;
     overflow: scroll;
 }
 nav {

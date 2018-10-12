@@ -19,8 +19,7 @@ else
     <?php
     include 'navbar.php';
     ?>
-    <?=$_SESSION['sess_user'];?>
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-top: 20px;">
         <div class="row allRow">
             <div class="col-lg-2 col-md-2 col-xl-2 mainSideBar maxHeight">
                 <?php
