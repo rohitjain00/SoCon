@@ -1,9 +1,17 @@
+<?php
+session_start();
+if(!isset($_SESSION["sess_user"])){
+    header("Location: login.php");
+}
+else
+{
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Account Settings</title>
 	<?php
-        include 'headerInclude.php'
+    include 'headerInclude.php'
         ?>
 </head>
 <body>
@@ -95,3 +103,6 @@
     ?>
 </body>
 </html>
+    <?php
+}
+?>

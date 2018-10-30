@@ -23,7 +23,7 @@ else
         <div class="row profilePicDiv">
             <span class="col-lg-4"></span>
             <div class="col-lg-4 profileImg">
-            <img src="Img/kortex_anime_naruto_tobi_uchiha_obito_man_moon_magic_horn_staff_night_95177_1600x900.jpg" alt="profile pic">
+            <img src="../Img/kortex_anime_naruto_tobi_uchiha_obito_man_moon_magic_horn_staff_night_95177_1600x900.jpg" alt="profile pic">
             </div>
             <span class="col-lg-4"></span>
         </div>
