@@ -2,25 +2,15 @@
 <html>
 <head>
     <title>User Registration</title>
-    <?php
-    include 'headerInclude.php'
-    ?>
 </head>
 <body>
-<?php
-include 'navbar.php';
-?>
-<form action="" method="post" style="padding-left: 50px; padding-top : 50px;max-width: 300px;">
-    <h1>User Registration</h1>
-    <div class="form-group">
-    <label>Username :</label><input class="form-control" type="text" name="user">
-    </div>
-    <div class="form-group">
-        <label>Password:</label><input class="form-control" type="password" name="pass">
-    </div>
-    <input type="submit" class="btn" value="Register" name="submit" style="background-color: #FB8C00 !important;">
+<h1>User Registration</h1>
+<form action="" method="post">
+    <label>Username :</label><input type="text" name="user"><br/><br/>
+    <label>Password:</label><input type="password" name="pass"><br/><br/>
+    <input type="submit" value="Register" name="submit"><br/><br/>
     <!-- Login Link -->
-    <p><a href="login.php">Already a User? LOGIN</a></p>
+    <a href="login.php">Login</a>
 </form>
 <?php
 include 'dbConnect.php';

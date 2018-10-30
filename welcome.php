@@ -11,7 +11,7 @@ else
     <head>
         <title>SoCon : Social Connectivity</title>
        <?php
-       include 'headerInclude.php'
+        include 'headerInclude.php'
         ?>
          </head>
 
