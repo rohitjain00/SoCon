@@ -44,7 +44,19 @@ if(isset($_POST["submit"])){
             if($user == $dbusername && $pass == $dbpassword)
             {
                 session_start();
-                $_SESSION['sess_user']=$user;
+                $_SESSION['sess_user'] = array(
+                        'username' => $user,
+                        'full_name' => $row['full_name'],
+                    'phone' => $row['phone'],
+                    'email' => $row['email'],
+                    'dob' => $row['dob']
+                );
+//                $_SESSION['sess_user'][0]=$user;
+//                $_SESSION['sess_user'][1]=$row['full_name'];
+//                $_SESSION['sess_user'][2]=$row['phone'];
+//                $_SESSION['sess_user'][3]=$row['email'];
+//                $_SESSION['sess_user'][4]=$row['dob'];
+
                 //Redirect Browser
                 header("Location:welcome.php");
             }

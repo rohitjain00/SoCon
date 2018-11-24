@@ -13,7 +13,13 @@
             &nbsp;&nbsp;
             <li class="nav-item active" style="font-size: 20px; padding-top: 10px;">
                 <a class="nav-link" href="../Webpages/Profile.php"><i style="font-size: 25px;" class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    <div style="display: inline;"> <?= strtoupper($_SESSION['sess_user']);?></div>
+                    <div style="display: inline;"> <?= strtoupper($_SESSION['sess_user']['username']);?>
+                        <?= strtoupper($_SESSION['sess_user']['email']);?>
+                        <?= strtoupper($_SESSION['sess_user'][2]);?>
+                        <?= strtoupper($_SESSION['sess_user'][3]);?>
+                        <?= strtoupper($_SESSION['sess_user'][4]);?>
+
+                    </div>
                     <br> <span class="sr-only">(current)</span></a>
             </li>
             &nbsp;
@@ -27,7 +33,7 @@
                     <a class="dropdown-item" href="../Webpages/accountSettings.php"><i class="fa fa-cogs" aria-hidden="true"></i>
                         Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="../Webpages/logout.php">Logout</a>
+                    <a class="dropdown-item" href="./logout.php">Logout</a>
                 </div>
             </li>
         </ul>

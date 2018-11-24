@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION["sess_user"])){
+if(!isset($_SESSION["username"])){
     header("Location: login.php");
 }
 else
@@ -26,16 +26,16 @@ else
                     include 'mainPageSideBar.php';
                 ?>
             </div>
-            <div class="col-lg-5 col-md-5 col-xl-5 maxHeight">
+            <div class="col-lg-8 col-md-8 col-xl-8 maxHeight">
                 <?php
                 include 'timeline.php';
                 ?>
             </div>
-            <div class="col-lg-3 col-md-3 col-xl-3 maxHeight extracss">
-                <?php
-                    include 'extra.php';
-                ?>
-            </div>
+<!--            <div class="col-lg-3 col-md-3 col-xl-3 maxHeight extracss">-->
+<!--                --><?php
+//                    include 'extra.php';
+//                ?>
+<!--            </div>-->
             <div class=" footer">
                 <?php
                 include 'footer.php';

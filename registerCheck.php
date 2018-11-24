@@ -6,8 +6,8 @@ if(isset($_POST["submit"])){
         $pass = $_POST['pass'];
 
         $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$user."'");
-        $numrows = mysqli_num_rows($query);
-        if($numrows == 0)
+        $numRows = mysqli_num_rows($query);
+        if($numRows == 0)
         {
             //Insert to Mysqli Query
             $sql = "INSERT INTO userpass(user,pass) VALUES('$user','$pass')";
