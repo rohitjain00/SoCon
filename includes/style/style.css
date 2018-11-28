@@ -111,7 +111,7 @@ nav {
     border: 1px solid #eee;
 }
 .post-button button:hover {
-    background-color: #FB8C00;
+        background-color: #FB8C00;
     color: white;
 }
 .comment-timeline {
@@ -264,3 +264,39 @@ nav {
     font-size: 20px !important;
 }
 
+img[src=""] {
+    display: none;
+}
+img[src=null] {
+    display: none;
+}
+
+#carousel-prev-images {
+    width: 90%;
+    height: 300px;
+    margin: 0 auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space:nowrap;
+
+}
+
+#carousel-prev-images .slide {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#carousel-prev-images .slide img {
+    height: 240px;
+    width: auto;
+    transition: transform 0.3s;
+    border: 1px solid #eee;
+}
+
+#carousel-prev-images .slide img:hover {
+    height: 240px;
+    width: auto;
+    overflow-y: visible !important;
+    cursor: pointer;
+    transform: scale(1.2);
+}

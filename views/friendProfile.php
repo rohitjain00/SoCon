@@ -1,13 +1,126 @@
 <?php
 session_start();
-$frinedId = $_GET["userId"];
+$friendId = $_GET["userId"];
 include '../includes/dbConnect.php';
 include '../includes/helper.php';
 
+/**
+ * @param $conn
+ * @param $frinedId
+ * @return array
+ */
+function showFriends($conn, $frinedId)
+{
+    $query = mysqli_query($conn, "Select friendId from friend where currentId = '" . $frinedId . "';");
+    $numrows = mysqli_num_rows($query);
+    if ($numrows != 0) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $friendId = $row['friendId'];
+            $friendDetails = userIdToDetails($friendId);
+            echo "
+                    <form method='get' action='friendProfile.php' class='profile-friend col-6'>
+                        <input type='hidden' name = 'userId' value='\" . $friendId . \"'>
+                        <img src='\".getProfile_img($friendId).\"' style='width : 100%; height : auto;'>
+                        <input type='submit'  value='" . $friendDetails['full_name'] . "' class='list-group-item-action list-group-item-light'>
+                    </form>";
+        }
+    }
+}
+
+/**
+ * @param $frinedId
+ * @param $conn
+ */
+function showPosts($frinedId, $conn)
+{
+    $userId = $frinedId;
+    //Result Message
+    $query = mysqli_query($conn, "SELECT * FROM post WHERE userId = '" . $userId . "'ORDER BY postId DESC;");
+    $numrows = mysqli_num_rows($query);
+    if ($numrows != 0) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $text = $row['post_text'];
+            $time = $row['time'];
+            $name = $row['upload_img'];
+            $userId = $row['userId'];
+            $userIdDetails = userIdToDetails($userId);
+            $username = $userIdDetails['user'];
+            $full_name = $userIdDetails['full_name'];
+            $postId = $row['postId'];
+
+            $hasLikedPost = "";
+            if (hasLikedPost($_SESSION['userId'], $postId)) {
+                $hasLikedPost = "disabled";
+            }
+
+            $numberOfLikes = numberOfLikes($postId);
+            $likedPersonDetails = likedPersonDetails($postId);
+            $likedPersonDetailsList = implode('<br>', $likedPersonDetails);
+            $comments = commentsOnPost($postId);
+            $commentsList = implode('', $comments);
+            echo "<br>
+                <br>
+                <div class='card'>
+                <div class='card-body'>
+                <h5 class='card-title'>$full_name <br><small>By : $username</small></h5>
+                <p class='card-text'><small class='text-muted'>Posted on $time</small></p>
+                <p class='card-text'>$text</p><br>
+                <img src='$name' class='card-img-bottom'><br><br>
+                
+                <button $hasLikedPost value='$postId' onclick='likeClickHandler($postId)' class='btn btn-danger like-button post-id-$postId' style='    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+    padding: 9px;' type='submit'>
+                    <i class='fas fa-heart'></i>
+                </button>
+                
+                <button type='button' class='btn btn-primary number-likes-$postId' data-toggle='modal' data-target='#myModal$postId'>
+                
+    <span class='number-likes-$postId'> $numberOfLikes</span>
+     </button>
+
+  <div class='modal' id='myModal$postId'>
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+      
+        <div class='modal-header'>
+          <button type='button' class='close' data-dismiss='modal'>&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class='modal-body'>
+         $likedPersonDetailsList
+        </div>
+        
+        <!-- Modal footer -->
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>  
+                
+                
+                <hr>
+                <div class='addCommentPannel-$postId'>
+                    $commentsList
+                </div>
+                    <input type='text' class='form-control' id='$postId' style='margin: 2% 0px; ' name='comment-text' placeholder='type your comment..'>
+                    <button type='submit' style='width: 25%;' onclick='commentClickHandler($postId)' class='btn btn-info'>Comment</button>
+                    
+                </div>
+                </div>
+                ";
+        }
+    }
+}
+
 if (!isset($_SESSION["username"])) {
-    header("Location: login.php");
+    echo "<script type='text/javascript'>location.href = '../views/login.php'</script>";
+
 } else {
-        $friendDetails = userIdToDetails($frinedId);
+    $friendDetails = userIdToDetails($friendId);
     ?>
     <!doctype html>
     <html>
@@ -21,6 +134,7 @@ if (!isset($_SESSION["username"])) {
     <body>
     <?php
     include '../components/navbar.php';
+    $frienedId = $_GET["userId"];
     ?>
     <div class="container-fluid">
         <div class="row profilePicDiv">
@@ -34,18 +148,33 @@ if (!isset($_SESSION["username"])) {
     </div>
     <div class="row">
         <div style="width: 10%; margin : 0 auto; margin-top: 40px;">
-            <?php
-            $query = mysqli_query($conn,"select * from friend where currentId='".$_SESSION['userId']."' and friendId = '".$frinedId."'");
-            $numrows = mysqli_num_rows($query);
-            $hasFollowed = "disabled";
-            if($numrows !=0){
-                $hasFollowed = "";
-            }
 
-            ?>
 
-            <button  style="width: 100%; margin: 0 auto;" value="<?= $friendDetails['user'] ?>" onclick="addPersonFriend()">
-                Follow
+            <button style="width: 100%; margin: 0 auto;"
+                    <?=
+                    $_SESSION['userId'] == $friendId ?
+                        'disabled' : ''
+                    ?>
+
+                                        class="btn btn-primary follow-button-<?= $friendId ?>"
+                                        value="<?= $friendDetails['user'] ?>"
+                                        onclick="addPersonFriend(<?= $friendId ?>,<?= $_SESSION['userId'] ?> )">
+                <span class="follow-button-text-<?= $friendId ?>">
+
+                     <?php
+
+                     $isFollowing = hasFollowed($_SESSION['userId'], $friendId);
+                     $hasFollowed = "Follow";
+                     if ($isFollowing) {
+                         $hasFollowed = "Unfollow";
+                     }
+                     if ($_SESSION['userId'] == $friendId) {
+                         $hasFollowed = "You";
+                     }
+                     echo ''.$hasFollowed;
+                     ?>
+
+                </span>
             </button>
 
         </div>
@@ -71,7 +200,8 @@ if (!isset($_SESSION["username"])) {
                             <p> <?= strtoupper($friendDetails['full_name']); ?>
                             </p>
 
-                            <blockquote class="blockquote-footer"><?= strtoupper($friendDetails['status']); ?></blockquote>
+                            <blockquote
+                                    class="blockquote-footer"><?= strtoupper($friendDetails['status']); ?></blockquote>
                         </blockquote>
                     </div>
                 </div>
@@ -88,6 +218,20 @@ if (!isset($_SESSION["username"])) {
             </div>
         </div>
     </div>
+    <?php
+    if ($isFollowing) {
+    ?>
+    <div id="carousel-prev-images">
+        <h3 style="text-align: center; margin-bottom: 30px;">Previous Profile Pictures Of You</h3>
+        <?php
+        $userPrevImages = userAllProfileImages($friendId);
+        foreach ($userPrevImages as $userPrevImage) {
+            echo "<div class=\"slide\">
+        <img src='$userPrevImage'>
+    </div>";
+        }
+        }
+        ?>
     <div class="content-width">
         <div class="row">
             <div class="col-4 friendList">
@@ -95,21 +239,7 @@ if (!isset($_SESSION["username"])) {
                     <h5>Friends</h5>
                     <div class="list-group">
                         <?php
-                        include '../includes/dbConnect.php';
-
-                        $query = mysqli_query($conn, "Select friendId from friend where currentId = '" . $frinedId . "';");
-                        $numrows = mysqli_num_rows($query);
-                        if ($numrows != 0) {
-                            while ($row = mysqli_fetch_assoc($query)) {
-                                $friendId = $row['friendId'];
-                                $friendDetails = userIdToDetails($friendId);
-                                echo "
-                    <form method='get' action='friendProfile.php' class='profile-friend'>
-                        <input type='hidden' name = 'userId' value='" . $friendId . "'>
-                        <input type='submit'  value='" . $friendDetails['full_name'] . "' class='list-group-item-action list-group-item-light'>
-                    </form>";
-                            }
-                        }
+                        showFriends($conn, $friendId);
                         ?>
 
 
@@ -118,9 +248,9 @@ if (!isset($_SESSION["username"])) {
 
                 </div>
             </div>
-            <div class="col-8 profile-post">
+            <div class="col-6 profile-post">
                 <?php
-                userIdToPostDetails($frinedId);
+                showPosts($friendId, $conn);
                 ?>
             </div>
         </div>
@@ -129,22 +259,67 @@ if (!isset($_SESSION["username"])) {
     <?php
     include '../includes/footerInclude.php'
     ?>
+
     </body>
     </html>
+    <script>
+        function likeClickHandler(postId) {
+            $.ajax({
+                type: "POST",
+                url: "../handlers/insertLike.php",
+                data: {
+                    postId: postId
+                },
+                success: function (data) {
+                    // alert(data);
+                    console.log(postId);
+                    $(".post-id-" + postId).prop("disabled", true);
+                    console.log(".post-id-" + postId);
+                    $('number-likes-' + postId).text($('number-likes-' + postId).val() + 1);
+                }
+            });
+
+        }
+
+        function commentClickHandler(postId) {
+            $.ajax({
+                type: "POST",
+                url: "../handlers/insertComment.php",
+                data: {
+                    text: $("#" + postId).val(),
+                    postId: postId
+                },
+                success: function (data) {
+                    // alert(data);
+                    // console.log($(".comment-form ." + postId).val());
+                    // console.log(postId);
+                    // $(postId).css("background-color" , "orange !important");
+                    $(".addCommentPannel-" + postId).append("<h3>" + '<?= $_SESSION['username'] ?>' + "</h3><p>&nbsp;&nbsp;&nbsp;" + $("#" + postId).val() + "</p><hr>");
+
+                }
+            });
+        }
+
+        function addPersonFriend(friendId, userId) {
+            $.ajax({
+                type: "POST",
+                url: "../handlers/insertFriend.php",
+                data: {
+                    friendId: friendId,
+                    userId: userId
+                },
+                success: function (data) {
+                    if ($(".follow-button-text-").text().indexOf("Follow") >= 0){
+                        $(".follow-button-text-").html("UnFollow");
+                    } else if ($(".follow-button-text-").text().indexOf("Unfollow") >= 0) {
+                        $(".follow-button-text-").html("Follow");
+                    }
+
+                    console.log(friendId + " " + userId);
+                }
+            });
+        }
+    </script>
     <?php
-}
-function addPersonFriend() {
-//    $sql = "INSERT INTO friend(currentId, friendId)
-//                    VALUES('".$_SESSION['username']."','".$username."');";
-//    $result = mysqli_query($conn, $sql);
-//    //Result Message
-//    if($result){
-//        echo "Followed";
-//    }
-//    else
-//    {
-//        echo "Failure!";
-//    }
-    echo "hello";
 }
 ?>

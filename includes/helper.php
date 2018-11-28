@@ -64,4 +64,74 @@ function getProfile_img($userId){
         }
     }
 }
+function userAllProfileImages($userId) {
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from profile_img where userId = '".$userId."'  order by id desc;");
+    $numrows = mysqli_num_rows($query);
+    $toReturn = array();
+    if($numrows !=0)
+    {
+        while($row = mysqli_fetch_assoc($query))
+        {
+            array_push($toReturn, $row['profile_img']);
+        }
+    }
+    return $toReturn;
+}
+function hasLikedPost($userId, $postId){
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from like_details where userId = '".$userId."' and postId = '".$postId."'");
+    $numrows = mysqli_num_rows($query);
+    return $numrows > 0;
+}
 
+function numberOfLikes($postId){
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from like_details where postId = '".$postId."'");
+    $numrows = mysqli_num_rows($query);
+    return $numrows;
+}
+function likedPersonDetails($postId){
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from userpass where userId in 
+      (SELECT userId from like_details where postId = '".$postId."')");
+    $numrows = mysqli_num_rows($query);
+    $toReturn = array();
+    if($numrows !=0)
+    {
+        while($row = mysqli_fetch_assoc($query))
+        {
+            array_push($toReturn, $row['full_name']);
+//            echo $row['full_name'];
+        }
+    }
+
+    return $toReturn;
+}
+function commentsOnPost($postId) {
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from comment_details where postId = '".$postId."'");
+    $numrows = mysqli_num_rows($query);
+    $toReturn = array();
+    if($numrows !=0)
+    {
+        while($row = mysqli_fetch_assoc($query))
+        {
+            $userDetails = userIdToDetails($row['userId']);
+            $userName = $userDetails['user'];
+            $postText = $row['text'];
+            array_push($toReturn, "<h4>$userName</h4>
+<p>&nbsp;&nbsp;&nbsp;$postText</p><hr>");
+
+        }
+    }
+    return $toReturn;
+}
+
+function hasFollowed($userId, $friendId) {
+    include '../includes/dbConnect.php';
+    $query = mysqli_query($conn, "SELECT * from friend where currentId = ".$userId." and friendId = ".$friendId);
+//    echo ''."SELECT * from friend where currentId = ".$userId." and friendId = ".$friendId;
+    $numrows = mysqli_num_rows($query);
+    return $numrows != 0;
+}

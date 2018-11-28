@@ -1,11 +1,13 @@
 <!doctype html>
     <html>
     <head>
-        <title>SoCon : Social Connectivity</title>
         <?php
+        $queryText = $_GET['queryText'];
+        session_start();
         include '../includes/headerInclude.php';
         include '../includes/helper.php'
         ?>
+        <title>SoCon : Search Results for <?= $queryText ?> </title>
     </head>
 
     <body>
@@ -21,12 +23,12 @@
             </div>
             <div class="col-lg-1 col-md-1 col-xl-1"></div>
             <div class="col-lg-5 col-md-5 col-xl-5 maxHeight">
-
+            <div class="row">
                 <?php
 
                 include '../includes/dbConnect.php';
 
-                $queryText = $_POST['queryText'];
+
                 // echo ''.$user;
                 function getLevenshtein1($word)
                 {
@@ -60,7 +62,7 @@
                 //  echo 'he'.$result;
                 if($numrows !=0)
                 {
-                    echo "<h3>Search Results for <i>"."'$queryText'"."</i> </h3><br>";
+                    echo "<h3 style='width: 100%'>Search Results for <i>"."'$queryText'"."</i> </h3><br>";
                     {
                         while($row = mysqli_fetch_assoc($result))
                         {
@@ -75,25 +77,25 @@
                             $studyat=$row['studyat'];
                             $profile_img = getProfile_img($userId);
                             echo"
-                            <div class='card' style='width: 18rem;'>
-                            <img class='card-img-top' src='$profile_img' alt='Card image cap'>
+                            <div class='card col-5' style='margin: 10px;'>
+                            <img style='margin: 10px;width: 100%; height: auto' class='card-img-top' src='$profile_img' alt='User has no pic!!'>
                              <div class='card-body'>
                              <h5 class='card-title'>Name : $full_name</h5>
                             <p class='card-text'>Username : $username</p>
                             </div>
                             <ul class='list-group list-group-flush'>
                             <li class='list-group-item'><i class=\"fa fa-briefcase\" aria-hidden=\"true\"></i>&nbsp;
-                                Worked at <?= echo $worksat ?></li>
+                                <?= echo $worksat ?></li>
                             <li class='list-group-item'><i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i>
-                Studied at <?= $studyat ?></li>
-                             <li class='list-group-item'><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i>
-                 $email</li>
+                                <?= $studyat ?></li>
+                             <li class='list-group-item'><i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>
+                                $email</li>
                              </ul>
                             <div class='card-body'>
                             
                     <form method='get' action='friendProfile.php' class='profile-friend'>
                         <input type='hidden' name = 'userId' value='" . $userId . "'>
-                        <input type='submit'  value='View Profile' class='list-group-item-action list-group-item-light'>
+                        <input type='submit'  value='View Profile' class='list-group-item-action btn list-group-item-light'>
                     </form>
                          
                             
@@ -110,6 +112,7 @@
                     echo "No Result to Display";
                 }
                 ?>
+            </div>
             </div>
 
             <div class="col-lg-2 col-md-2 col-xl-2"></div>

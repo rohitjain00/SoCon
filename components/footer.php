@@ -5,7 +5,7 @@
     </div>
     <h5> </h5>
     <div class="list-group">
-        <a href="../includes/Data/Privacy.pdf" class="list-group-item-action list-group-item-light"> Privacy</a>
+        <a href="../views/privacyPolicy.php" class="list-group-item-action list-group-item-light"> Privacy</a>
     </div>
     <h5> </h5>
     <div class="list-group">

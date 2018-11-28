@@ -3,6 +3,8 @@
 <head>
     <title>Login</title>
     <?php
+    session_start();
+
     include '../includes/headerInclude.php';
     include '../includes/helper.php';
     ?>
@@ -59,7 +61,7 @@ if(isset($_POST["submit"])){
             }
             if($user == $dbusername && $pass == $dbpassword)
             {
-                session_start();
+
 //                $_SESSION['sess_user'] = array(
 //                        'username' => $user,
 //                        'full_name' => $row['full_name'],
@@ -79,7 +81,8 @@ if(isset($_POST["submit"])){
                 $_SESSION["profile_img"] = getProfile_img($userId);
 
                 //Redirect Browser
-                header("Location:welcome.php");
+                echo"<script type='text/javascript'>location.href = '../views/welcome.php'</script>";
+
             }
         }
         else

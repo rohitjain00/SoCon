@@ -3,6 +3,7 @@
 <head>
     <title>SoCon : Social Connectivity</title>
     <?php
+    include '../includes/dbConnect.php';
     include '../includes/headerInclude.php';
     include '../includes/helper.php';
     session_start();
@@ -22,14 +23,13 @@ include '../components/navbar.php';
         </div>
         <div class="col-lg-1 col-md-1 col-xl-1"></div>
         <div class="col-lg-5 col-md-5 col-xl-5 maxHeight">
-
+        <div class="row">
             <?php
 
-            include '../includes/dbConnect.php';
             $userId = $_SESSION['userId'];
 
 
-            $query="SELECT *  FROM userpass WHERE userId = (SELECT friendID from friend where currentId = '".$userId."')";
+            $query="SELECT *  FROM userpass WHERE userId in (SELECT friendID from friend where currentId = '".$userId."')";
 
             $result = mysqli_query($conn,$query);
 
@@ -51,8 +51,10 @@ include '../components/navbar.php';
                         $studyat=$row['studyat'];
                         $profile_img = getProfile_img($userId);
                         echo"
-                            <div class='card' style='width: 18rem;'>
+                            <div class='card col-5' style='width: 50%; margin: 10px;'>
+                            
                             <img class='card-img-top' src='$profile_img' alt='Card image cap'>
+                            
                              <div class='card-body'>
                              <h5 class='card-title'>Name : $full_name</h5>
                             <p class='card-text'>Username : $username</p>
@@ -69,7 +71,7 @@ include '../components/navbar.php';
                             
                     <form method='get' action='friendProfile.php' class='profile-friend'>
                         <input type='hidden' name = 'userId' value='" . $userId . "'>
-                        <input type='submit'  value='View Profile' class='list-group-item-action list-group-item-light'>
+                        <input type='submit'  value='View Profile' class='btn list-group-item-action list-group-item-light'>
                     </form>
                          
                             
@@ -83,9 +85,10 @@ include '../components/navbar.php';
             }
             else
             {
-                echo "No Result to Display";
+                echo "No Friends!!...yet Try Searching for one";
             }
             ?>
+        </div>
         </div>
 
         <div class="col-lg-2 col-md-2 col-xl-2"></div>

@@ -1,3 +1,3 @@
 <script>
-    window.location.replace("./views/welcome.php");
+    window.location.replace("./views/login.php");
 </script>

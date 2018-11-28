@@ -2,7 +2,7 @@
 session_start();
 $userId=$_SESSION['userId'];
 if(!isset($_SESSION["username"])){
-    header("Location: login.php");
+    echo"<script type='text/javascript'>location.href = '../views/login.php'</script>";
 }
 else
 {
@@ -10,7 +10,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Account Settings</title>
+	<title>SoCon : Account Settings</title>
 	<?php
     include '../includes/headerInclude.php';
     include '../includes/helper.php';
@@ -32,8 +32,9 @@ else
                         <div class='card-body'>
                             <h5 class='card-title' style="text-align: center;">PROFILE PICTURE</h5>
                             <?php $img_src=getProfile_img($userId);?>
-
-                            <cenetr><img src="<?=$img_src?>" style="height: auto; width: 100%;"/></cenetr>
+                            <div style="width: 100%;">
+                            <img src="<?=$img_src?>" style="height: 200px; display: block; width: auto;margin: auto;"/>
+                            </div>
                             <hr>
                             <form action="../handlers/changeprofile_img.php" method="post" enctype="multipart/form-data">
                                 <input class="btn" type="file" name="file"  style="background-color: #FB8C00 !important;">
