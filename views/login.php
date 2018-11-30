@@ -34,14 +34,14 @@ if(isset($_POST["submit"])){
     if(!empty($_POST['user']) && !empty($_POST['pass'])){
         $user = $_POST['user'];
         $pass = $_POST['pass'];
-
+        $hashPassword = md5($pass.$user);
 
         //for adding in session
         $phone;
         $email;
         $dob;
         $userId;
-        $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$user."' AND pass='".$pass."'");
+        $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$user."' AND pass='".$hashPassword."'");
         $numrows = mysqli_num_rows($query);
         if($numrows !=0)
         {
@@ -59,7 +59,7 @@ if(isset($_POST["submit"])){
                 $studyat=$row['studyat'];
                 $worksat=$row['worksat'];
             }
-            if($user == $dbusername && $pass == $dbpassword)
+            if($user == $dbusername && $hashPassword == $dbpassword)
             {
 
 //                $_SESSION['sess_user'] = array(
@@ -70,6 +70,7 @@ if(isset($_POST["submit"])){
 //                    'dob' => $row['dob']
 //                );
                 $_SESSION['username']=$user;
+                $_SESSION['pass']=$hashPassword;
                 $_SESSION['full_name']=$full_name;
                 $_SESSION['phone']=$phone;
                 $_SESSION['email']=$email;

@@ -6,7 +6,8 @@ include '../includes/dbConnect.php';
     if(!empty($_POST['full_name']))
     {
         $full_name = $_POST['full_name'];
-            $result = mysqli_query($conn,"update userpass set full_name='".$full_name."'where userId='".$_SESSION['userId']."'");
+        echo $full_name;
+            $result = mysqli_query($conn,"update userpass set full_name='".$full_name."'where userId='".$_SESSION['userId']."';");
             //Result Message
             if($result){
                 $_SESSION['full_name'] = $full_name;
@@ -56,10 +57,11 @@ include '../includes/dbConnect.php';
                 echo "Your Phone Updated Successfully";
             }
             else
+    
             {
                 echo "Phone Update Failure!";
             }
-    }
+                }
     if(!empty($_POST['bday']))
     {
         $bday = $_POST['bday'];
@@ -75,10 +77,25 @@ include '../includes/dbConnect.php';
                 echo "Birthday Update Failure!";
             }
     }
-    if(!empty($_POST['workplace']))
+    if(!empty($_POST['education']))
     {
-        $workplace = $_POST['workplace'];
-            $result = mysqli_query($conn, "update userpass set workat='".$workplace."'where userId='".$_SESSION['userId']."'");
+        $education = $_POST['education'];
+        $_SESSION["studyat"] = $education;
+            $result = mysqli_query($conn, "update userpass set studyat='".$education."'where userId='".$_SESSION['userId']."'");
+            //Result Message
+            if($result){
+                echo "Your education details Updated Successfully";
+            }
+            else
+            {
+                echo "Education details Update Failure!";
+            }
+    }
+    if(!empty($_POST['work']))
+    {
+        $work = $_POST['work'];
+        $_SESSION["worksat"] = $work;
+            $result = mysqli_query($conn, "update userpass set worksat='".$work."'where userId='".$_SESSION['userId']."'");
             //Result Message
             if($result){
                 echo "Your Workplace Updated Successfully";
@@ -90,11 +107,13 @@ include '../includes/dbConnect.php';
     }
     if(!empty($_POST['currentPassword']))
     {
-        $currPass=$_POST('currentPassword');
-        $newPass=$_POST('newPassword');
-        if(strcmp($currPass,$_SESSION['pass'])==0)
+        $currPass=$_POST['currentPassword'];
+        $HashedCurrPass = md5($currPass.$_SESSION['username']);
+        $newPass=$_POST['newPassword'];
+        $HashedNewPass = md5($newPass.$_SESSION['username']);
+        if(strcmp($HashedCurrPass,$_SESSION['pass'])==0)
         {
-            $result = mysqli_query($conn,"update userpass set pass='".$newPass."'where userId='".$_SESSION['userId']."'");
+            $result = mysqli_query($conn,"update userpass set pass='".$HashedNewPass."'where userId='".$_SESSION['userId']."'");
             //Result Message
             if($result){
                 echo "Your Password Updated Successfully";

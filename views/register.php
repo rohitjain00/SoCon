@@ -48,18 +48,19 @@ if(isset($_POST["submit"])){
     if(!empty($_POST['user']) && !empty($_POST['pass'])){
         $user = $_POST['user'];
         $pass = $_POST['pass'];
+        $hashPassword = md5($pass.$user);
         $email = $_POST['email'];
         $dob = $_POST['dob'];
         $full_name = $_POST['full_name'];
         $phone = $_POST['phone'];
 
-        $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$user."'");
+        $query = mysqli_query($conn, "SELECT * FROM userpass WHERE user='".$hashPassword."'");
         $numrows = mysqli_num_rows($query);
         if($numrows == 0)
         {
             //Insert to Mysqli Query
             $sql = "INSERT INTO userpass(user,pass,email,phone,full_name,dob) 
-                    VALUES('$user','$pass','$email','$phone','$full_name','$dob');";
+                    VALUES('$user','$hashPassword','$email','$phone','$full_name','$dob');";
             $result = mysqli_query($conn, $sql);
             //Result Message
             if($result){

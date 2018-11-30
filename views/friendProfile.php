@@ -17,10 +17,11 @@ function showFriends($conn, $frinedId)
         while ($row = mysqli_fetch_assoc($query)) {
             $friendId = $row['friendId'];
             $friendDetails = userIdToDetails($friendId);
+            $friendIdImage = getProfile_img($friendId);
             echo "
                     <form method='get' action='friendProfile.php' class='profile-friend col-6'>
                         <input type='hidden' name = 'userId' value='\" . $friendId . \"'>
-                        <img src='\".getProfile_img($friendId).\"' style='width : 100%; height : auto;'>
+                        <img src='".$friendIdImage."' style='width : 100%; height : auto;'>
                         <input type='submit'  value='" . $friendDetails['full_name'] . "' class='list-group-item-action list-group-item-light'>
                     </form>";
         }
@@ -159,7 +160,7 @@ if (!isset($_SESSION["username"])) {
                                         class="btn btn-primary follow-button-<?= $friendId ?>"
                                         value="<?= $friendDetails['user'] ?>"
                                         onclick="addPersonFriend(<?= $friendId ?>,<?= $_SESSION['userId'] ?> )">
-                <span class="follow-button-text-<?= $friendId ?>">
+                <span class="follow-button-text">
 
                      <?php
 
@@ -229,8 +230,8 @@ if (!isset($_SESSION["username"])) {
             echo "<div class=\"slide\">
         <img src='$userPrevImage'>
     </div>";
-        }
-        }
+        }}
+        echo "</div>";
         ?>
     <div class="content-width">
         <div class="row">
@@ -238,11 +239,11 @@ if (!isset($_SESSION["username"])) {
                 <div class="footerDiv">
                     <h5>Friends</h5>
                     <div class="list-group">
+                        <div class="row">
                         <?php
                         showFriends($conn, $friendId);
                         ?>
-
-
+                    </div>
                     </div>
                     <h5></h5>
 
@@ -309,11 +310,9 @@ if (!isset($_SESSION["username"])) {
                     userId: userId
                 },
                 success: function (data) {
-                    if ($(".follow-button-text-").text().indexOf("Follow") >= 0){
-                        $(".follow-button-text-").html("UnFollow");
-                    } else if ($(".follow-button-text-").text().indexOf("Unfollow") >= 0) {
-                        $(".follow-button-text-").html("Follow");
-                    }
+                    var elem = document.getElementsByClassName("follow-button-text");
+                    if (elem.value==="Follow") elem.value = "Unfollow";
+                    else elem.value = "Follow";
 
                     console.log(friendId + " " + userId);
                 }

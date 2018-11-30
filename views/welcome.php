@@ -27,19 +27,19 @@ else
                 ?>
             </div>
             <div class="col-lg-1 col-md-1 col-xl-1"></div>
-            <div class="col-lg-5 col-md-5 col-xl-5 maxHeight">
+            <div class="col-lg-5 col-md-5 col-xl-5 maxHeight" style="margin-left: -60px;">
                 <?php
                 include '../components/timeline.php';
                 ?>
             </div>
 
-            <div class="col-lg-2 col-md-2 col-xl-2"></div>
-<!--            <div class="col-lg-3 col-md-3 col-xl-3 maxHeight extracss">-->
-<!--                --><?php
-//                    include 'extra.php';
-//                ?>
-<!--            </div>-->
-            <div class="footer">
+            <div class="chat-box-main">
+                <?php
+                include '../components/chatBox.php';
+                ?>
+            </div>
+
+            <div class="footer col-lg-2 col-md-2 col-xl-2">
                 <?php
                 include '../components/footer.php';
                 ?>

@@ -85,9 +85,9 @@
                             </div>
                             <ul class='list-group list-group-flush'>
                             <li class='list-group-item'><i class=\"fa fa-briefcase\" aria-hidden=\"true\"></i>&nbsp;
-                                <?= echo $worksat ?></li>
+                                $worksat</li>
                             <li class='list-group-item'><i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i>
-                                <?= $studyat ?></li>
+                                $studyat</li>
                              <li class='list-group-item'><i class=\"fa fa-envelope\" aria-hidden=\"true\"></i>
                                 $email</li>
                              </ul>
@@ -121,11 +121,7 @@
             //                    include 'extra.php';
             //                ?>
             <!--            </div>-->
-            <div class="footer">
-                <?php
-                include '../components/footer.php';
-                ?>
-            </div>
+
         </div>
     </div>
 

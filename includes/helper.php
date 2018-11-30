@@ -1,5 +1,16 @@
 <?php
 
+function test_email($email){
+    $email = input($_POST["email"]);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid format and please re-enter valid email";
+    }
+}
+function  test_input($name){
+    if(!preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $phone)) {
+        echo "Phone number is not valid";
+    }
+}
 function userIdToDetails($userId) {
     include '../includes/dbConnect.php';
     $query = mysqli_query($conn, "SELECT * from userpass where userId = '".$userId."'");
@@ -50,8 +61,6 @@ function userIdToPostDetails($userId) {
     }
 
 }
-
-
 function getProfile_img($userId){
     include '../includes/dbConnect.php';
     $query = mysqli_query($conn, "SELECT * from profile_img where userId = '".$userId."'  order by id desc limit 1;");
@@ -84,7 +93,6 @@ function hasLikedPost($userId, $postId){
     $numrows = mysqli_num_rows($query);
     return $numrows > 0;
 }
-
 function numberOfLikes($postId){
     include '../includes/dbConnect.php';
     $query = mysqli_query($conn, "SELECT * from like_details where postId = '".$postId."'");
@@ -127,11 +135,87 @@ function commentsOnPost($postId) {
     }
     return $toReturn;
 }
-
 function hasFollowed($userId, $friendId) {
     include '../includes/dbConnect.php';
     $query = mysqli_query($conn, "SELECT * from friend where currentId = ".$userId." and friendId = ".$friendId);
 //    echo ''."SELECT * from friend where currentId = ".$userId." and friendId = ".$friendId;
     $numrows = mysqli_num_rows($query);
     return $numrows != 0;
+}
+function displayFriends($userId)
+{   include "../includes/dbConnect.php";
+
+    $query = "SELECT *  FROM userpass WHERE userId in (SELECT friendID from friend where currentId = '" . $userId . "')";
+
+    $result = mysqli_query($conn, $query);
+
+    $numrows = mysqli_num_rows($result);
+    //  echo 'he'.$result;
+    if ($numrows != 0) {
+        {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $userId = $row['userId'];
+                $username = $row['user'];
+                $phone = $row['phone'];
+                $email = $row['email'];
+                $dob = $row['dob'];
+                $status = $row['status'];
+                $worksat = $row['worksat'];
+                $full_name = $row['full_name'];
+                $studyat = $row['studyat'];
+                $profile_img = getProfile_img($userId);
+                echo "
+                            <div class='card col-5' style='width: 50%; margin: 10px;'>
+                            
+                            <img class='card-img-top' src='$profile_img' alt='Card image cap'>
+                            
+                             <div class='card-body'>
+                             <h5 class='card-title'>Name : $full_name</h5>
+                            <p class='card-text'>Username : $username</p>
+                            </div>
+                            <ul class='list-group list-group-flush'>
+                            <li class='list-group-item'><i class=\"fa fa-briefcase\" aria-hidden=\"true\"></i>&nbsp;
+                                Worked at <?= echo $worksat ?></li>
+                            <li class='list-group-item'><i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i>
+                Studied at <?= $studyat ?></li>
+                             <li class='list-group-item'><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i>
+                 $email</li>
+                             </ul>
+                            <div class='card-body'>
+                            
+                    <form method='get' action='friendProfile.php' class='profile-friend'>
+                        <input type='hidden' name = 'userId' value='" . $userId . "'>
+                        <input type='submit'  value='View Profile' class='btn list-group-item-action list-group-item-light'>
+                    </form>
+                         
+                            
+                            </div>
+                            </div>
+                            <br>
+                            <br>";
+//                            echo getProfile_img($userId).$userId.$username.'<br>'.$phone.'<br>'.$email.'<br>'.$dob.'<br>'.$full_name.'<br>'.$status.'<br>'.$studyat.'<br>'.$worksat.'<br><br><br><br><br>';
+            }
+        }
+    } else {
+        echo "No Friends!!...yet Try Searching for one";
+    }
+}
+function getFriendsId($userId)
+{
+    include "../includes/dbConnect.php";
+
+    $query = "SELECT friendID from friend where currentId = '" . $userId . "'";
+
+    $result = mysqli_query($conn, $query);
+    $toReturn = array();
+    $numrows = mysqli_num_rows($result);
+    //  echo 'he'.$result;
+    if ($numrows != 0) {
+        {
+            while ($row = mysqli_fetch_assoc($result)) {
+                array_push($toReturn, $row['friendID']);
+            }
+        }
+    }
+    return $toReturn;
 }

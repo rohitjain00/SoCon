@@ -26,67 +26,11 @@ include '../components/navbar.php';
         <div class="row">
             <?php
 
-            $userId = $_SESSION['userId'];
+            /**
+             * @param $conn
+             */
 
-
-            $query="SELECT *  FROM userpass WHERE userId in (SELECT friendID from friend where currentId = '".$userId."')";
-
-            $result = mysqli_query($conn,$query);
-
-            $numrows = mysqli_num_rows($result);
-            //  echo 'he'.$result;
-            if($numrows !=0)
-            {
-                {
-                    while($row = mysqli_fetch_assoc($result))
-                    {
-                        $userId=$row['userId'];
-                        $username=$row['user'];
-                        $phone = $row['phone'];
-                        $email = $row['email'];
-                        $dob = $row['dob'];
-                        $status=$row['status'];
-                        $worksat=$row['worksat'];
-                        $full_name = $row['full_name'];
-                        $studyat=$row['studyat'];
-                        $profile_img = getProfile_img($userId);
-                        echo"
-                            <div class='card col-5' style='width: 50%; margin: 10px;'>
-                            
-                            <img class='card-img-top' src='$profile_img' alt='Card image cap'>
-                            
-                             <div class='card-body'>
-                             <h5 class='card-title'>Name : $full_name</h5>
-                            <p class='card-text'>Username : $username</p>
-                            </div>
-                            <ul class='list-group list-group-flush'>
-                            <li class='list-group-item'><i class=\"fa fa-briefcase\" aria-hidden=\"true\"></i>&nbsp;
-                                Worked at <?= echo $worksat ?></li>
-                            <li class='list-group-item'><i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i>
-                Studied at <?= $studyat ?></li>
-                             <li class='list-group-item'><i class=\"fa fa-envelope-o\" aria-hidden=\"true\"></i>
-                 $email</li>
-                             </ul>
-                            <div class='card-body'>
-                            
-                    <form method='get' action='friendProfile.php' class='profile-friend'>
-                        <input type='hidden' name = 'userId' value='" . $userId . "'>
-                        <input type='submit'  value='View Profile' class='btn list-group-item-action list-group-item-light'>
-                    </form>
-                         
-                            
-                            </div>
-                            </div>
-                            <br>
-                            <br>";
-//                            echo getProfile_img($userId).$userId.$username.'<br>'.$phone.'<br>'.$email.'<br>'.$dob.'<br>'.$full_name.'<br>'.$status.'<br>'.$studyat.'<br>'.$worksat.'<br><br><br><br><br>';
-                    }
-                }
-            }
-            else
-            {
-                echo "No Friends!!...yet Try Searching for one";
-            }
+            displayFriends($_SESSION['userId']);
             ?>
         </div>
         </div>
@@ -97,11 +41,7 @@ include '../components/navbar.php';
         //                    include 'extra.php';
         //                ?>
         <!--            </div>-->
-        <div class="footer">
-            <?php
-            include '../components/footer.php';
-            ?>
-        </div>
+
     </div>
 </div>
 

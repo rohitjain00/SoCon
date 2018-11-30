@@ -51,7 +51,7 @@ else
 
         <legend>Name</legend>
         <div class="form-group">
-    <label for="full_name">Full Name</label> <input type="text" class="form-control" id="full_name"  name="full_name" placeholder="Name">
+    <label for="full_name">Full Name</label> <input type="text" class="form-control" id="full_name"  name="full_name" placeholder="<?=$_SESSION['full_name']?>">
   </div>
                     <br>
 
@@ -59,18 +59,18 @@ else
     <legend>Change Status</legend>
      <div>
   <label for="Status">New Status</label>
-    <input type="text" class="form-control" id="Status" name="status" placeholder="Put your status">
+    <input type="text" class="form-control" id="Status" name="status" placeholder="<?= $_SESSION['status'] ?>">
 </div>
 <br>
 
   <legend>Contact</legend>  
   <div class="form-group">
     <label for="newEmail">New Email address</label> 
-    <input type="email" class="form-control" id="newEmail" name="newEmail" aria-describedby="emailHelp" placeholder="Enter new email address">
+    <input type="email" class="form-control" id="newEmail" name="newEmail" aria-describedby="emailHelp" placeholder="<?= $_SESSION['email'] ?>">
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     <br>
     <label for="Phone">New Phone Number</label>
-    <input type="text" class="form-control" id="Phone" name="Phone" placeholder="New Phone Number">
+    <input type="text" class="form-control" id="Phone" name="Phone" placeholder="<?= $_SESSION['phone'] ?>">
     <small id="Phone" class="form-text text-muted">We'll never share your phone number with anyone else.</small>
   </div>
 <br>
@@ -86,25 +86,19 @@ else
   <br>
   <legend>Date of Birth</legend>
   <div> 
-    <input class="form-control" type="date" name="bday">
+    <input class="form-control" type="date" name="bday" value="<?= $_SESSION['dob'] ?>">
 </div>
 <br>
   <legend>Add/change Workplace</legend>
   <div>
-  <label for="Workplace">Address</label>
-    <input type="text" class="form-control" id="Workplace" name="workplace" placeholder="Enter to add/change your workplace">
+  <label for="education">Education</label>
+    <input type="text" class="form-control" id="education" name="education" placeholder="<?= $_SESSION['studyat'] ?>">
 
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity" name="inputCity">
-          <label for="inputState">State</label>
-      <input type="text" class="form-control" id="inputState" name="inputState">
+      <label for="work">Work</label>
+      <input type="text" class="form-control" id="work" name="work" placeholder="<?= $_SESSION['worksat'] ?>">
+      
     </div>
     <br>
-  <br>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
   <br>
   <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
